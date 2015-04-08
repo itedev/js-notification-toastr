@@ -1,8 +1,8 @@
 {
   "name": "ite/js-ajax-block",
   "type": "library",
-  "description": "Provides functional for rendering Twig blocks via AJAX.",
-  "keywords": ["javascript", "jquery", "ajax", "twig", "blocks"],
+  "description": "TE JSBundle extension to show notifications via toastr.js",
+  "keywords": ["javascript", "jquery", "notifications", "toastr"],
   "license": "MIT",
   "authors": [
     {
@@ -17,8 +17,8 @@
   },
   "autoload": {
     "psr-0": {
-      "ITE\\Js\\AjaxBlock": ""
+      "ITE\\Js\\Notifications\\Toastr": ""
     }
   },
-  "target-dir": "ITE/Js/AjaxBlock"
+  "target-dir": "ITE/Js/Notifications/Toastr"
 }
