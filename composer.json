@@ -1,5 +1,5 @@
 {
-  "name": "ite/js-notifications-toastr",
+  "name": "ite/js-notification-toastr",
   "type": "library",
   "description": "TE JSBundle extension to show notifications via toastr.js",
   "keywords": ["javascript", "jquery", "notifications", "toastr"],
