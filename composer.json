@@ -1,7 +1,7 @@
 {
   "name": "ite/js-notification-toastr",
   "type": "library",
-  "description": "TE JSBundle extension to show notifications via toastr.js",
+  "description": "ITEJSBundle extension to show notifications via toastr.js",
   "keywords": ["javascript", "jquery", "notifications", "toastr"],
   "license": "MIT",
   "authors": [
@@ -13,7 +13,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.4",
-    "ite/js-bundle": "dev-master"
+    "ite/js-notification": "dev-master"
   },
   "autoload": {
     "psr-0": {
