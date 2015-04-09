@@ -17,8 +17,8 @@
   },
   "autoload": {
     "psr-0": {
-      "ITE\\Js\\Notifications\\Toastr": ""
+      "ITE\\Js\\Notification\\Toastr": ""
     }
   },
-  "target-dir": "ITE/Js/Notifications/Toastr"
+  "target-dir": "ITE/Js/Notification/Toastr"
 }
