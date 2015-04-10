@@ -15,7 +15,6 @@ use Symfony\Component\DependencyInjection\Loader;
 /**
  * Class ToastrChannel
  *
- * @package ITE\Js\Notification
  * @author  sam0delkin <t.samodelkin@gmail.com>
  */
 class ToastrChannel extends AbstractChannel
