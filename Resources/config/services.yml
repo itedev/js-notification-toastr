@@ -1,9 +1,9 @@
 parameters:
-  ite_js.notifications.toastr_extension.class: ITE\Js\Notification\ToastrExtension
+  ite_js.notifications.toastr_channel.class: ITE\Js\Notification\ToastrChannel
 
 services:
-  ite_js.notifications.toastr_extension:
-    class: %ite_js.notifications.toastr_extension.class%
-    arguments: [%ite_js.notifications.toastr.version%]
+  ite_js.notifications.toastr_channel:
+    class: %ite_js.notifications.toastr_channel.class%
+    arguments: [%ite_js.notifications.toastr_channel.version%]
     tags:
-      - { name: ite_js.sf.extension, alias: 'notifications_toastr' }
+      - { name: ite_js.notification.channel }

@@ -3,8 +3,8 @@
 namespace ITE\Js\Notification;
 
 use ITE\Common\CdnJs\Resource\Reference;
+use ITE\Js\Notification\Channel\AbstractChannel;
 use ITE\Js\Notification\Definition\Builder\PluginDefinition;
-use ITE\Js\Notification\Plugin\NotificationPlugin;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -13,17 +13,13 @@ use Symfony\Component\DependencyInjection\Loader;
 
 
 /**
- * Class ToastrExtension
+ * Class ToastrChannel
  *
  * @package ITE\Js\Notification
  * @author  sam0delkin <t.samodelkin@gmail.com>
  */
-class ToastrExtension extends NotificationPlugin
+class ToastrChannel extends AbstractChannel
 {
-    /**
-     * @var bool
-     */
-    private static $loaded = false;
     /**
      * @var string
      */
@@ -37,47 +33,50 @@ class ToastrExtension extends NotificationPlugin
         $this->version = $version;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getCdnName()
+    {
+        return 'toastr.js';
+    }
 
+    /**
+     * @inheritdoc
+     */
     public function getCdnJavascripts($debug)
     {
-        if ($debug) {
-           return [
-               new Reference('toastr.js', $this->version, 'js/toastr.js')
-           ];
-        } else {
-            return [
-                new Reference('toastr.js', $this->version, 'js/toastr.min.js')
-            ];
-        }
+        return [
+            new Reference('toastr.js', $this->version, $debug ? 'js/toastr.js' : 'js/toastr.min.js')
+        ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getCdnStylesheets($debug)
     {
-        if ($debug) {
-            return [
-                new Reference('toastr.js', $this->version, 'css/toastr.css')
-            ];
-        } else {
-            return [
-                new Reference('toastr.js', $this->version, 'css/toastr.min.css')
-            ];
-        }
+        return [
+            new Reference('toastr.js', $this->version, $debug ? 'css/toastr.css' : 'css/toastr.min.css')
+        ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getJavascripts()
     {
         return [__DIR__.'/Resources/public/js/sf.notification.toastr.js'];
     }
 
-    public function addConfiguration(ArrayNodeDefinition $pluginsNode, ContainerBuilder $container)
+    /**
+     * @inheritdoc
+     */
+    public function getConfiguration(ContainerBuilder $container)
     {
-        if (!($pluginsNode instanceof PluginDefinition)) {
-            return false;
-        }
-
         $builder = new TreeBuilder();
-        $node = $builder->root('toastr');
 
+        $node = $builder->root('toastr');
         $node
             ->canBeEnabled()
             ->addDefaultsIfNotSet()
@@ -91,14 +90,27 @@ class ToastrExtension extends NotificationPlugin
         return $node;
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function loadConfiguration(array $config, ContainerBuilder $container)
     {
-        if ($config['extensions']['notifications']['toastr']['enabled']) {
-            $container->setParameter('ite_js.notifications.toastr.version', $config['extensions']['notifications']['toastr']['version']);
+        if ($config['extensions']['notifications']['channels']['toastr']['enabled']) {
+            $container->setParameter(
+                'ite_js.notifications.toastr_channel.version',
+                $config['extensions']['notifications']['channels']['toastr']['version']
+            );
             $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/Resources/config'));
             $loader->load('services.yml');
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'toastr';
     }
 
 }
