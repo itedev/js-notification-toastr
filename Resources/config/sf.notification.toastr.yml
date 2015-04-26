@@ -1,0 +1,11 @@
+parameters:
+    ite_js.notification.channel.toastr.class: ITE\Js\Notification\Channel\ToastrChannel
+
+services:
+    ite_js.notification.channel.toastr:
+        class: %ite_js.notification.channel.toastr.class%
+        arguments: [ %ite_js.notification.channel.toastr.version% ]
+        tags:
+            - { name: ite_js.notification.channel }
+
+    ite_notificator.toastr: @ite_js.notification.channel.toastr
