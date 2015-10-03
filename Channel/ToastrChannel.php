@@ -109,5 +109,4 @@ class ToastrChannel extends AbstractChannel
     {
         return 'toastr';
     }
-
 }
