@@ -1,7 +1,7 @@
 (function($) {
-  $(document).ready(function() {
-    $(document).on('ite-show.toastr.notification', function(e, notification) {
-      toastr[notification.type](notification.message, notification.title, notification.options);
-    });
+  SF.notifier.channels['toastr'] = new SF.classes.Channel({
+    message: function (type, title, message, options) {
+      toastr[type](message, title, options);
+    }
   });
 })(jQuery);
