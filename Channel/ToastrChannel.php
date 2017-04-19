@@ -2,10 +2,7 @@
 
 namespace ITE\Js\Notification\Channel;
 
-use ITE\Common\CdnJs\Resource\Reference;
-use ITE\Js\Notification\Channel\AbstractChannel;
-use ITE\Js\Notification\Definition\Builder\PluginDefinition;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use ITE\Common\CdnJs\CdnAssetReference;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,7 +11,7 @@ use Symfony\Component\DependencyInjection\Loader;
 /**
  * Class ToastrChannel
  *
- * @author  sam0delkin <t.samodelkin@gmail.com>
+ * @author sam0delkin <t.samodelkin@gmail.com>
  */
 class ToastrChannel extends AbstractChannel
 {
@@ -80,7 +77,7 @@ class ToastrChannel extends AbstractChannel
     public function getCdnStylesheets($debug)
     {
         return [
-            new Reference($this->getCdnName(), $this->version, $debug ? 'css/toastr.css' : 'css/toastr.min.css')
+            new CdnAssetReference($this->getCdnName(), $this->version, $debug ? 'css/toastr.css' : 'css/toastr.min.css')
         ];
     }
 
@@ -90,7 +87,7 @@ class ToastrChannel extends AbstractChannel
     public function getCdnJavascripts($debug)
     {
         return [
-            new Reference($this->getCdnName(), $this->version, $debug ? 'js/toastr.js' : 'js/toastr.min.js')
+            new CdnAssetReference($this->getCdnName(), $this->version, $debug ? 'js/toastr.js' : 'js/toastr.min.js')
         ];
     }
 
