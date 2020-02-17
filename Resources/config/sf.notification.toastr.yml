@@ -4,7 +4,7 @@ parameters:
 services:
     ite_js.notification.channel.toastr:
         class: %ite_js.notification.channel.toastr.class%
-        arguments: [ %ite_js.notification.channel.toastr.version% ]
+        arguments: [ %ite_js.notification.channel.toastr.cdn% ]
         tags:
             - { name: ite_js.notification.channel }
 

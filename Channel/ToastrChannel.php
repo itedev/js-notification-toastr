@@ -16,16 +16,16 @@ use Symfony\Component\DependencyInjection\Loader;
 class ToastrChannel extends AbstractChannel
 {
     /**
-     * @var string
+     * @var array
      */
-    private $version;
+    protected $cdn;
 
     /**
-     * @param $version
+     * @param array $cdn
      */
-    public function __construct($version)
+    public function setCdn(array $cdn)
     {
-        $this->version = $version;
+        $this->cdn = $cdn;
     }
 
     /**
@@ -38,12 +38,22 @@ class ToastrChannel extends AbstractChannel
         $node = $builder->root('toastr');
         $node
             ->canBeEnabled()
-            ->children()
-                ->scalarNode('version')
-                    ->defaultValue('2.1.0')
-                ->end()
-            ->end()
         ;
+        if ($this->hasCdn()) {
+            $node
+                ->children()
+                    ->arrayNode('cdn')
+                        ->canBeUnset()
+                        ->canBeDisabled()
+                        ->children()
+                            ->scalarNode('version')
+                                ->defaultValue($this->getDefaultCdnVersion())
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ;
+        }
 
         return $node;
     }
@@ -54,13 +64,20 @@ class ToastrChannel extends AbstractChannel
     public function loadConfiguration(array $config, ContainerBuilder $container)
     {
         if ($config['extensions']['notification']['channels']['toastr']['enabled']) {
-            $container->setParameter(
-                'ite_js.notification.channel.toastr.version',
-                $config['extensions']['notification']['channels']['toastr']['version']
-            );
+            if ($this->hasCdn()) {
+                $container->setParameter(sprintf('ite_js.notification.channel.%s.cdn', static::getName()), $config['extensions']['notification']['channels']['toastr']['cdn']);
+            }
             $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('sf.notification.toastr.yml');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultCdnVersion()
+    {
+        return '2.1.0';
     }
 
     /**
@@ -77,7 +94,11 @@ class ToastrChannel extends AbstractChannel
     public function getCdnStylesheets($debug)
     {
         return [
-            new CdnAssetReference($this->getCdnName(), $this->version, $debug ? 'css/toastr.css' : 'css/toastr.min.css')
+            new CdnAssetReference(
+                $this->getCdnName(),
+                $this->getCdnVersion(),
+                $debug ? 'css/toastr.css' : 'css/toastr.min.css'
+            ),
         ];
     }
 
@@ -87,7 +108,11 @@ class ToastrChannel extends AbstractChannel
     public function getCdnJavascripts($debug)
     {
         return [
-            new CdnAssetReference($this->getCdnName(), $this->version, $debug ? 'js/toastr.js' : 'js/toastr.min.js')
+            new CdnAssetReference(
+                $this->getCdnName(),
+                $this->getCdnVersion(),
+                $debug ? 'js/toastr.js' : 'js/toastr.min.js'
+            ),
         ];
     }
 
